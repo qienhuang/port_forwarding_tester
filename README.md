@@ -4,5 +4,6 @@
 Running on Wamp or Lamp server
 
 Demo:
-![Demo]()
+![Demo](https://github.com/qienhuang/port_forwarding_tester/raw/master/demo.gif)
+
 
