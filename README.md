@@ -3,6 +3,7 @@
 
 Running on Wamp or Lamp server
 
-![Demo](https://github.com/qienhuang/port_forwarding_tester/raw/master/demo.gif)
+![Demo](https://github.com/qienhuang/port_forwarding_tester/raw/master/snapshoot/demo.gif)
+![UI](https://github.com/qienhuang/port_forwarding_tester/raw/master/snapshoot/ui.png)
 
 
