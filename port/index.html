@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org">
+
+<!-- 
+Programming by Kevin Huang, 2012-2017
+Email: qien.huang.ny@gmail.com
+-->
+
+<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<link rel="shortcut icon" href="img/spring.ico" />
+	<link rel="bookmark" href="img/spring.ico" />
+
+	<title>Port open testing</title>
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+
+	<style type="text/css">
+	body{
+
+	font-family: Tahoma,Geneva,sans-serif;
+	font-size: 13px;
+	/* font-weight: normal; */
+	color: #FFF;
+	background-color: #CCCCCC;
+
+}
+#textbox_host{
+	width: 200px;
+	margin-right: 10px;
+	margin-bottom: 0px;
+	font-weight: bold;
+}
+
+.lables{
+	float: left;
+	padding-right: 15px;
+	text-align: right;
+	vertical-align:middle;
+	width: 35%;
+	height:20px;
+	line-height:23px;
+	margin: 0px;
+	clear: left;
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+.textbox_port{
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 2px;
+	width: 50px;
+	margin-top: 2px;
+}
+#lable_your_ip_info{
+	text-align:center;		
+	color:  White;
+	font-weight: normal; 
+	font-size: 16px;
+	margin-bottom: 35px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+#lable_host_ip{
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 40%;
+	height:15px;
+	line-height:25px;
+	color: White;
+}
+#lable_host_isp{
+	margin-top: 0px;
+	margin-bottom: 00px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 40%;
+	height:15px;
+	line-height:25px;
+	color:White;
+}
+#lable_host_city{
+	color: White;
+	margin-top: 0px;
+	margin-bottom: 30px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 40%;
+	height:15px;
+	line-height:25px;
+}
+#form_check{
+	height: 400px;
+	width:	400px;
+	margin-top: 65px;
+	margin-right: auto;
+	margin-bottom: auto;
+	margin-left: auto;
+	
+	border: 6px solid #FFF;
+	background-color: #01a3de; /* rgb(0,145,206); */
+
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px; 
+	-moz-box-shadow: 3px 3px 4px #000;
+	-webkit-box-shadow: 3px 3px 4px #000;
+	box-shadow: 3px 3px 4px #333
+}
+
+button{
+	float: left;
+	width: 88px;
+	clear: none;
+	background-position: center;
+	text-align: center;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+/* 	background-color: rgb(97,189,79);
+color: white; */
+}
+.lable_result{
+	float: left;
+	clear: right;
+	padding-left: 10px;
+	width: 45px;
+	line-height:25px;
+	text-align: center;
+	background-repeat: no-repeat;
+	background-position: 25px center;
+	margin-top: 0;
+	margin-right: 30px;
+	margin-bottom: 3px;
+	margin-left: 0;
+	height: 25px;
+}
+
+
+#copyright {
+	font-size: 12px;
+	color: gray;
+	position: fixed;
+	width: 100%;
+	margin: 0 auto;
+	line-height: 25px;
+	height: 120px;
+	bottom: -60px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	
+}
+</style>
+<script type="text/javascript" src="jquery/jquery.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(e) {
+		// Place here for non-csrf 
+		$.get("http://ip-api.com/json", "", function(result2){
+			//Example: {"as":"AS12271 Time Warner Cable Internet LLC","city":"Brooklyn","country":"United States","countryCode":"US","isp":"Time Warner Cable","lat":40.7111,"lon":-73.9469,"org":"Time Warner Cable","query":"24.90.230.251","region":"NY","regionName":"New York","status":"success","timezone":"America/New_York","zip":"11211"}
+			var obj_json =eval(result2);
+
+			if( $("#textbox_host").val() == "dyn.com" ) {
+				$("#textbox_host").val(obj_json.query);
+			}
+			$("#lable_your_ip_info").text("Your wan ip is - "+obj_json.query);
+			$("#lable_host_ip").text(obj_json.query);
+			$("#lable_host_isp").text(obj_json.isp);
+			if (obj_json.zip != "") {
+				$("#lable_host_city").text(obj_json.city);					
+			}
+
+		});
+		
+		$(":text").focus(function(){
+			$(this).css('background-color','#FFFFFF');
+		}).blur(function(){
+			$(this).css('background-color','#FFFFFF');
+		});		
+
+
+		$("#textbox_host").bind("change",function(){
+			$("#lable_host_ip").text("");
+			$("#lable_host_isp").text("");
+			$("#lable_host_city").text("");
+
+			
+			$.get("http://ip-api.com/json/" + $(this).val().replace(/(^\s*)|(\s*$)/g, ""), function(result){
+				// {"as":"AS12271 Time Warner Cable Internet LLC","city":"Brooklyn","country":"United States","countryCode":"US","isp":"Time Warner Cable","lat":40.7111,"lon":-73.9469,"org":"Time Warner Cable","query":"24.90.230.251","region":"NY","regionName":"New York","status":"success","timezone":"America/New_York","zip":"11211"}
+				var obj_json =eval(result);
+				$("#lable_host_ip").text(obj_json.query);
+				$("#lable_host_isp").text(obj_json.isp);
+				if (obj_json.zip != "") {
+					$("#lable_host_city").text(obj_json.city);					
+				}
+
+			});
+		});
+		$(".textbox_port").focus(function(){
+			//$(this).val("");
+			$(this).next().next().css('background-image','none').text("");
+		});	
+		
+		// Request port test
+		$("button").click(function(e){
+			if($(this).prev().val() =='')
+			{
+				alert("Wrong port number!");
+				return;
+			};
+			$(this).next().css(	{'background-image':'url(img/waiting.gif)'}).text('');
+			
+			$.post("port_check.php",{operation:'test_port',host: $("#textbox_host").val().replace(/(^\s*)|(\s*$)/g, ""), port: $(this).prev().val(),button: $(this).attr("id")},
+				function(result){
+				//{"Result":{"host":"24.90.230.251","port":"85","button":"button_check1","open":"yes"}}
+				//alert(result);
+				var obj_json =eval("("+result+")");					
+				if(obj_json.result.open == "yes")
+				{
+					$("#"+obj_json.result.button).next().text("OK");
+				}
+				else
+				{
+					$("#"+obj_json.result.button).next().text("Failed");
+				};
+				$("#"+obj_json.result.button).next().css({'background-image':'none'});
+
+			}
+			); 
+
+		});
+
+		$("#qr").hover(function(e) {
+			$("#qr img").fadeIn('fast');
+		});
+		$("#qr").mouseleave(function()
+		{
+			$("#qr img").fadeOut('fast');
+
+		});
+	});
+</script>
+
+</head>
+
+<body>
+	<div id="form_check">
+
+		<p id="lable_your_ip_info"> Waiting wan IP information</p>
+
+
+		<p class="lables">Host name:
+		</p>
+		<input type="text" id="textbox_host" value="dyn.com">
+		<br>
+		<p id="lable_host_ip"></p>
+		<p id="lable_host_isp"></p>
+		<p id="lable_host_city"></p>
+
+		<p class="lables">Port:
+		</p>
+		<input type="text" class="textbox_port" value="8080">
+		<button id="button_check1">check</button>
+		<p class="lable_result"></p>
+
+		<p class="lables">Port:
+		</p>
+		<input type="text" class="textbox_port" value="8000">
+		<button id="button_check2">check</button>
+		<p class="lable_result"></p>
+
+		<p class="lables">Port:
+		</p>
+		<input type="text" class="textbox_port" value="8554">
+		<button id="button_check3">check</button>
+		<p class="lable_result"></p>
+
+		<p class="lables">Port:
+		</p>
+		<input type="text" class="textbox_port" value="6036">
+		<button id="button_check4">check</button>
+		<p class="lable_result"></p>
+	</div>
+	<div id='copyright'>
+		<p><img src="img/spring.ico"style="width:16px;height:16px; margin-right:5px; vertical-align: middle;">Powered by PHP, UI and coding by Kevin Huang, 2012-2017. Email: qien.huang.ny@gmail.com</p>
+	</div>
+
+</body></html>
