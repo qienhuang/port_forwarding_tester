@@ -13,7 +13,7 @@ A demo site:
 http://ectcctv.net
 
 <p align="center">
-  <img src="https://github.com/qienhuang/port_forwarding_tester/raw/master/snapshoot/demo_site.png" alt="A demo site"/>
+  <img src="https://github.com/qienhuang/port_forwarding_tester/raw/master/snapshoot/demo_site.png" alt="A demo site"/ url="http://ectcctv.net">
 </p>
 
 
